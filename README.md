@@ -8,16 +8,16 @@ Build Python Extension
 ================
 
 <pre>
-cd python/
-python setup.py install --install-platlib $PWD
+cd id_crypto
+python python/setup.py install --install-platlib $PWD
 </pre>
 
 Check if it works in ipython:
 
 <pre>
 import license
-license.read_license('../license')
-x = license.get_license_value('../license')
+license.read_license('license')
+x = license.get_license_value('license')
 print x
 </pre>
 
