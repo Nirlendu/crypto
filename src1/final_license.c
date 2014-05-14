@@ -99,7 +99,8 @@ char *get_value(char *token, FILE *fp) {
 }
 
 
-int _read_license(char *lfile, char **err) {
+char* _read_license(char *lfile, char *err) {
+  err="Valid licence file";
   FILE *fp;
   int ret_err = 0;
   char *client, *site, *users, *machines, *callers, *workflows, *time_from, *time_to; 
@@ -107,12 +108,12 @@ int _read_license(char *lfile, char **err) {
   char *hash;
   
   if (!lfile) {
-    *err = "No Licene File Specified";
+    err = "No Licene File Specified";
     return 0;
   }
   fp = fopen(lfile, "r");
   if (!fp) {
-    //*err = strerror(errno);
+    //err = strerror(errno);
     return 0;
   }
 
@@ -129,20 +130,20 @@ int _read_license(char *lfile, char **err) {
 
   if (!client || !site || !users || !machines || !callers || !workflows || !time_from || !time_to || !hash) {
     /* corrupted license file */
-    *err = "Bad or Corrupted License File";
+    err = "Bad or Corrupted License File";
     goto bye_bye;
   }
   
   final = hash_this(client, site, MAP_NAN(users), MAP_NAN(machines), MAP_NAN(callers), MAP_NAN(workflows),
 		    MAP_TIME_NAN(time_from), MAP_TIME_NAN(time_to), 59265359);
   if (!final) {
-    *err = "Computation error - couldn't compute hash";
+    err = "Computation error - couldn't compute hash";
     goto bye_bye;
   }
   if (strcmp(hash, final)) {
     /* Our computed hash & the stored hash don't agree. The License file has probably being
        tweaked */
-    *err = "Corrupted or Bad License File";
+    err = "Corrupted or Bad License File";
     goto bye_bye;
   }
   ret_err = 1;
@@ -168,7 +169,7 @@ int _read_license(char *lfile, char **err) {
   free(hash);
   if (final)
     free(final);
-  return ret_err;
+  return err;
 }
 
 
@@ -182,11 +183,11 @@ static PyObject *create_node(PyObject *self, PyObject *args) {
     return NULL;
   }
   if (!PyCallable_Check(eval_fn)) {
-    PyErr_SetString(PyExc_TypeError, "1st argument must be a callable");
+    Pyerr_SetString(PyExc_Typeerror, "1st argument must be a callable");
     return NULL;
   }
   if (!PyCallable_Check(machine_class)) {
-    PyErr_SetString(PyExc_TypeError, "2nd argument must be a callable");
+    Pyerr_SetString(PyExc_Typeerror, "2nd argument must be a callable");
     return NULL;
   }
   
@@ -204,7 +205,7 @@ static PyObject *create_node(PyObject *self, PyObject *args) {
   }
   Py_DECREF(pobj);
   if (num_machines < machine_count + 1) {
-    return PyErr_Format(PyExc_RuntimeError, "All node licenses (%d) have been exhausted. No new node can be created. Please contact Support", num_machines);
+    return Pyerr_Format(PyExc_Runtimeerror, "All node licenses (%d) have been exhausted. No new node can be created. Please contact Support", num_machines);
   }
   
   temp = Py_BuildValue("(ssisO)", name, address, ssh_port, os, owner);
@@ -216,7 +217,7 @@ static PyObject *create_node(PyObject *self, PyObject *args) {
 }
 
 static PyObject *read_license(PyObject *self, PyObject *args) {
-  char *license_file, *err;
+  char *license_file, err;
   PyObject *obj;
   int licenses;
   
@@ -225,7 +226,7 @@ static PyObject *read_license(PyObject *self, PyObject *args) {
   }
   licenses = _read_license(license_file, &err);
   if (!licenses) {
-    return PyErr_Format(PyExc_RuntimeError, "Could not read license file. (%s). Please contact Support.", err);
+    return Pyerr_Format(PyExc_Runtimeerror, "Could not read license file. (%s). Please contact Support.", err);
   }
   obj = Py_BuildValue("i", licenses);
   return obj;
@@ -255,13 +256,13 @@ static PyObject *get_license_duration(PyObject *self, PyObject *args) {
 }
 
 static PyObject *init_license(PyObject *self, PyObject *args) {
-  char *err, *license_file;
+  char err, *license_file;
   
   if (!PyArg_ParseTuple(args, "s", &license_file)) {
     return NULL;
   }
   if (!_read_license(license_file, &err))
-    return PyErr_Format(PyExc_RuntimeError, "Could not read license file. (%s). Please contact Support.", err);
+    return Pyerr_Format(PyExc_Runtimeerror, "Could not read license file. (%s). Please contact Support.", err);
   return Py_None;
 }
 

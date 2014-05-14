@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<string.h>
 #include"final_license.c"
 int main(int argc, char *argv[]){
 	/*
@@ -9,7 +10,7 @@ int main(int argc, char *argv[]){
 		printf("%02x", ans[i]);
 	}
 	printf("\n");
-	*/
+	
 	char **err;
 	if(_read_license(argv[1], err)==1){
 		printf("The license file is succesful and checked without any errors\n");
@@ -17,5 +18,8 @@ int main(int argc, char *argv[]){
 	else{
 		printf("Some problem exists\n");
 	}
-return 0;
+	*/
+	char *err;
+	printf("%s\n",_read_license(argv[1], err));
+	return 0;
 }
