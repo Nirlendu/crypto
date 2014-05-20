@@ -1,0 +1,3 @@
+all: test_all.c
+	  gcc -o t_c test_all.c
+	  ./t_c ../src/license
