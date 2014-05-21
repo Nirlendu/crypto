@@ -8,13 +8,13 @@
 
 3>Now execute the following code in this directory
 
-	<code>swig -csharp cryp.i
-	gcc -c -fpic cryp.c cryp_wrap.c
-	gcc -shared cryp.o cryp_wrap.o -o libcryp.so</code>
+	<code>swig -csharp cryp.i</code>
+	<code>gcc -c -fpic cryp.c cryp_wrap.c</code>
+	<code>gcc -shared cryp.o cryp_wrap.o -o libcryp.so</code>
 
 4>After doing all this stuffs now type this command and execute
 		
-	<code>gmcs *.cs -out:cryp.exe
-	mono cryp.exe</code>
+	<code>gmcs *.cs -out:cryp.exe</code>
+	<code>mono cryp.exe</code>
 
 5>Give your input now to STDIN and press ctrl+d

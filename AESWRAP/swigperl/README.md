@@ -8,18 +8,17 @@
 
 3>Now execute the following code in this directory
 
-	<code> swig -perl5 cryp.i
-	gcc -c `perl -MConfig -e 'print join(" ", @Config{qw(ccflags optimize cccdlflags)}, \
-            "-I$Config{archlib}/CORE")'` cryp.c cryp_wrap.c
-         gcc `perl -MConfig -e 'print $Config{lddlflags}'` cryp.o cryp_wrap.o -o cryp.so</code>
+	<code> swig -perl5 cryp.i</code>
+	<code>gcc -c `perl -MConfig -e 'print join(" ", @Config{qw(ccflags optimize cccdlflags)}, \"-I$Config{archlib}/CORE")'` cryp.c cryp_wrap.c </code>
+       <code>gcc `perl -MConfig -e 'print $Config{lddlflags}'` cryp.o cryp_wrap.o -o cryp.so</code>
 
 4>After doing all this stuffs now type this command and execute
 
-	<code>perl
-	use cryp;
-	cryp::enc_dec("rohit","d.txt");
-	ctrl+d
-	enter the input to STDIN
-	ctrl+d</code>
+	<code>perl</code>
+	<code>use cryp;</code>
+	<code>cryp::enc_dec("rohit","d.txt");</code>
+	<code>ctrl+d</code>
+	<code>enter the input to STDIN</code>
+	<code>ctrl+d</code>
 		
 

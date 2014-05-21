@@ -6,9 +6,9 @@
 
 3>Now execute the following code in this directory
 
-	<code>swig -java cryp.i
-	gcc -Wall -fPIC -I/usr/java/jdk1.8.0_05/include/ -I/usr/java/jdk1.8.0_05/include/linux -c cryp.c cryp_wrap.c
-	ld -shared cryp.o cryp_wrap.o -o libcryp.so</code>
+	<code>swig -java cryp.i</code>
+	<code>gcc -Wall -fPIC -I/usr/java/jdk1.8.0_05/include/ -I/usr/java/jdk1.8.0_05/include/linux -c cryp.c cryp_wrap.c</code>
+	<code>ld -shared cryp.o cryp_wrap.o -o libcryp.so</code>
  
 4>After doing all this stuffs now run the main.java file using javac compiler-
 
