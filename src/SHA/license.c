@@ -1,15 +1,13 @@
-#include <Python.h>
 #ifndef WIN32
+#include"license.h"
 #include <unistd.h>
 #endif
 #include <stdio.h>
 #include <ctype.h>
 #include <time.h>
-
-#ifndef PyMODINIT_FUNC
+#include<string.h>
+#include<stdlib.h>
 #define PyMODINIT_FUNC void
-#endif
-
 #ifdef WIN32
 #define STRSEP id_strsep
 #else
@@ -98,9 +96,11 @@ char *get_value(char *token, FILE *fp) {
 }
 
 
-int _read_license(char *lfile, char **err) {
+char* _read_license(char *lfile, char **err) {
   FILE *fp;
   int ret_err = 0;
+  *err= "Perfect !";
+  int errno;
   char *client, *site, *users, *machines, *callers, *workflows, *time_from, *time_to, *hash, *final=NULL;
   
   if (!lfile) {
@@ -164,8 +164,9 @@ int _read_license(char *lfile, char **err) {
   free(hash);
   //if (final)
   //  free(final);
-  return ret_err;
+  return *err;
 }
+/*
 
 static PyObject *create_node(PyObject *self, PyObject *args) {
   PyObject *eval_fn, *owner, *pobj, *temp, *kwtemp, *str, *machine_class;
@@ -276,3 +277,4 @@ PyMODINIT_FUNC initlicense(void)
 {
   Py_InitModule3("license", license_methods, "License Methods");
 }
+*/
