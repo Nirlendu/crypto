@@ -98,7 +98,7 @@ char *get_value(char *token, FILE *fp) {
 
 char* _read_license(char *lfile, char **err) {
   FILE *fp;
-  int ret_err = 0;
+  //int ret_err = 0;
   *err= "Perfect !";
   int errno;
   char *client, *site, *users, *machines, *callers, *workflows, *time_from, *time_to, *hash, *final=NULL;
@@ -130,8 +130,7 @@ char* _read_license(char *lfile, char **err) {
     goto bye_bye;
   }
   
-  final = hash_this(client, site, MAP_NAN(users), MAP_NAN(machines), MAP_NAN(callers), MAP_NAN(workflows),
-		    MAP_TIME_NAN(time_from), MAP_TIME_NAN(time_to), 59265359);
+  final = hash_this(client, site, MAP_NAN(users), MAP_NAN(machines), MAP_NAN(callers), MAP_NAN(workflows),MAP_TIME_NAN(time_from),MAP_TIME_NAN(time_to), 59265359);
   if (!final) {
     *err = "Computation error - couldn't compute hash";
     goto bye_bye;
@@ -142,7 +141,7 @@ char* _read_license(char *lfile, char **err) {
     *err = "Corrupted or Bad License File";
     goto bye_bye;
   }
-  ret_err = 1;
+  //ret_err = 1;
   gclient = strdup(client);
   gsite = strdup(site);
   num_users = id_atoi(users);
@@ -164,6 +163,7 @@ char* _read_license(char *lfile, char **err) {
   free(hash);
   //if (final)
   //  free(final);
+  //puts(*err);
   return *err;
 }
 /*

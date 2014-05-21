@@ -1,5 +1,8 @@
 #include<Python.h>
-#include"../../src/SHA/license.h"
+#include<stdio.h>
+#include<stdlib.h>
+#include"../../../src/SHA/license.c"
+
 static PyObject *create_node(PyObject *self, PyObject *args) {
   PyObject *eval_fn, *owner, *pobj, *temp, *kwtemp, *str, *machine_class;
   int machine_count = 0, ssh_port;
@@ -103,5 +106,10 @@ static PyMethodDef license_methods[] = {
   {"get_license_duration", get_license_duration, METH_VARARGS, "Returns seconds remaining from license expiry"},
   {NULL, NULL, 0, NULL}
 };
+
+PyMODINIT_FUNC initlicense(void)
+{
+  Py_InitModule3("license", license_methods, "License Methods");
+}
 
 

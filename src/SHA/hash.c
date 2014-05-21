@@ -306,14 +306,3 @@ char *hash_this(char *client, char *site, char *ucount, char *mcount, char *ccou
   return printHash(sha1_result(&s));
 }
 
-/*
-void main(){
-	int i;
-	printf("yes, the hash value is ");
-	uint8_t* ans=hash_this("QA","NO","000010","000010","000010","000010","20140101","20141231",59265359);
-	for (i=0; i<20; i++) {
-		printf("%02x", ans[i]);
-	}
-	printf("\n");
-}
-*/
