@@ -7,7 +7,7 @@ librijndael.so: lib/rijndael.c include/base64.h lib/base64.c
 	mv librijndael.so ./lib
 
 test_main: C_wrap/test_main.c librijndael.so
-	gcc -L./lib -o test_main C_wrap/test_main.c -lrijndael -Wl,-rpath=./lib
+	gcc -L./lib -I./include -o test_main C_wrap/test_main.c -lrijndael -Wl,-rpath=./lib
 
 .PHONY: clean
 

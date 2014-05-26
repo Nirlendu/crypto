@@ -1243,7 +1243,7 @@ char *enc( char *password, char * plain_text)
     key[i] = password != 0 ? *password++ : 0;
   nrounds = rijndaelSetupEncrypt(rk, key, 256);
   while ( *plain_text != 0 )
-  {
+  { 
     unsigned char plaintext[16];
     unsigned char ciphertext[16];
     int j;
@@ -1262,6 +1262,7 @@ char *enc( char *password, char * plain_text)
     for(i=0; i<flen; i++)
       c_t[i] = b64[i];
     c_t = c_t + flen;
+    free(b64);
   }
   *c_t = 0; 
   return cipher_text;
@@ -1275,7 +1276,7 @@ char * dec( char *password, char *cipher_text)
   int i, flen ;
   int nrounds;
   int p_t_len = (strlen(cipher_text)/24 + 1)*16 +1;
-  char * plain_text; char * p_t;
+  char * plain_text; char * p_t; unsigned char * ub64;
   plain_text = (char *)malloc(p_t_len);
   p_t = plain_text;
   for (i = 0; i < sizeof(key); i++)
@@ -1292,10 +1293,12 @@ char * dec( char *password, char *cipher_text)
     unsigned char ciphertext[24];
     if (fread(ciphertext, 24, 1, input) != 1)
       break;
-    rijndaelDecrypt(rk, nrounds, unbase64((char *)ciphertext, 24, &flen), plaintext);
+    ub64 = unbase64((char *)ciphertext, 24, &flen);
+    rijndaelDecrypt(rk, nrounds, ub64, plaintext);
     for(i=0; i<flen; i++)
       p_t[i] = plaintext[i];
     p_t = p_t + flen;
+    free(ub64);
   }
   *p_t = 0; 
   fclose(input);
