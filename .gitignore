@@ -31,3 +31,6 @@ Session.vim
 
 # text files used for tests
 *.txt
+
+
+*.egg-info
