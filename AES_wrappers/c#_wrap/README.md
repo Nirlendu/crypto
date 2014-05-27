@@ -8,13 +8,13 @@
 
 3>Now execute the following code in this directory
 
-	swig -csharp cryp.i
-	gcc -c -fpic cryp.c cryp_wrap.c
-	gcc -shared cryp.o cryp_wrap.o -o libcryp.so
+	swig -csharp ../lib/rijndael.i
+	gcc -c -fpic ../lib/rijndael.c ../lib/rijndael_wrap.c
+	gcc -shared rijndael.o rijndael_wrap.o -o librijndael.so
 
 4>After doing all this stuffs now type this command and execute
 		
-	gmcs *.cs -out:cryp.exe
-	mono cryp.exe
+	gmcs *.cs -out:rijndael.exe
+	mono rijndael.exe
 
-5>Give your input now to STDIN and press ctrl+d
+

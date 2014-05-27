@@ -6,9 +6,10 @@
 
 3>Now execute the following code in this directory
 
-	swig -java cryp.i
-	gcc -Wall -fPIC -I/usr/java/jdk1.8.0_05/include/ -I/usr/java/jdk1.8.0_05/include/linux -c cryp.c cryp_wrap.c
-	ld -shared cryp.o cryp_wrap.o -o libcryp.so
+	swig -java ../lib/rijndael.i
+	gcc -Wall -fPIC -I/usr/java/jdk1.8.0_05/include/ -I/usr/java/jdk1.8.0_05/include/linux -c ../lib/rijndael.c ../lib/rijndael_wrap.c
+	ld -shared rijndael.o rijndael_wrap.o -o librijndael.so
+	mv ../lib/*java ../java_wrap
  
 4>After doing all this stuffs now run the main.java file using javac compiler-
 
@@ -16,6 +17,6 @@
 
 5>Now call using the library path ...
 
-<code> java -Djava.library.path=/home/rohit/swigjava main</code>
+<code> java -Djava.library.path=/home/rohit/java_wrap main</code>
 
-6>Give your input now to STDIN.
+

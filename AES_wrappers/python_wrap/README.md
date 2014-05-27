@@ -8,13 +8,13 @@
 
 3>Now execute the following code in the swigpython directory
 
-      swig -python cryp.i
-      gcc -Wall -fPIC -I/usr/include/python2.7 -c cryp.c cryp_wrap.c
-      ld -shared cryp.o cryp_wrap.o -o _cryp.so
+      swig -python ../lib/rijndael.i
+      gcc -Wall -fPIC -I/usr/include/python2.7 -c ../lib/rijndael.c ../lib/rijndael_wrap.c
+      ld -shared rijndael.o rijndael_wrap.o -o _rijndael.so
  
 4>After doing all this stuffs now import cryp lib in python window
 
-    import cryp
-    cryp.enc_dec("key","name of file where ciphertext should be stored")
+    import rijndael
+    rijndael.enc("key","message")
 
-5>Give your input now to STDIN and press ctrl+d
+

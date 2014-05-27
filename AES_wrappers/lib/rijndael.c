@@ -1,32 +1,23 @@
+
+/* rijndael implementation stolen from: 
+   http://www.efgh.com/software/rijndael.htm */
+
 #define FULL_UNROLL
 #undef FULL_UNROLL
 
-//#include "rijndael.h"
-#ifndef H__RIJNDAEL
-#define H__RIJNDAEL
 
-int rijndaelSetupEncrypt(unsigned long *rk, const unsigned char *key,
-  int keybits);
-int rijndaelSetupDecrypt(unsigned long *rk, const unsigned char *key,
-  int keybits);
-void rijndaelEncrypt(const unsigned long *rk, int nrounds,
-  const unsigned char plaintext[16], unsigned char ciphertext[16]);
-void rijndaelDecrypt(const unsigned long *rk, int nrounds,
-  const unsigned char ciphertext[16], unsigned char plaintext[16]);
+// #include "rijndael.h"
 
 #define KEYLENGTH(keybits) ((keybits)/8)
 #define RKLENGTH(keybits)  ((keybits)/8+28)
 #define NROUNDS(keybits)   ((keybits)/32+6)
 
-//int encrypt(int *pass, char *arg);
-//int decrypt(int *pass, char *arg);
+#define KEYBITS 256
 
-#define KEYBITS 256 
-
-#endif
-
+#include "rijndael.h"
 #include <stdio.h>
-
+#include <string.h>
+#include "../include/base64.c"
 
 typedef unsigned long u32;
 typedef unsigned char u8;
@@ -1237,145 +1228,102 @@ void rijndaelDecrypt(const u32 *rk, int nrounds, const u8 ciphertext[16],
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-void enc(char *password, char *filename)
+char *enc( char *password, char * plain_text)
 {
   unsigned long rk[RKLENGTH(KEYBITS)];
   unsigned char key[KEYLENGTH(KEYBITS)];
-  int i;
+  int i, flen;
   int nrounds;
-  //char *password;
-  FILE *output;
- /* if (argc < 3)
-  {
-    fputs("Missing argument\n", stderr);
-    return 1;
-  }*/
-           //using argument-1 as the key
+  char *cipher_text; char *c_t; char * b64;
+  int c_t_len = (strlen(plain_text)/16 + 1)*24 + 1;
+  cipher_text = (char *)malloc(c_t_len);
+  c_t = cipher_text;
   for (i = 0; i < sizeof(key); i++)
     key[i] = password != 0 ? *password++ : 0;
-  output = fopen(filename, "wb");  //using argument-2 for getting the name of output file
-  if (output == NULL)
-  {
-    fputs("File write error", stderr);
-    //return 1;
-  }
   nrounds = rijndaelSetupEncrypt(rk, key, 256);
-  while (!feof(stdin))
+  while ( *plain_text != 0 )
   {
     unsigned char plaintext[16];
     unsigned char ciphertext[16];
     int j;
     for (j = 0; j < sizeof(plaintext); j++)
     {
-      int c = getchar();
-      if (c == EOF)
-        break;
+      int c = *plain_text;
       plaintext[j] = c;
+      plain_text++;
+      if (*plain_text == 0)
+        break;
     }
-    if (j == 0)
-      break;
     for (; j < sizeof(plaintext); j++)
       plaintext[j] = ' ';
     rijndaelEncrypt(rk, nrounds, plaintext, ciphertext);
-    if (fwrite(ciphertext, sizeof(ciphertext), 1, output) != 1)
-    {
-      fclose(output);
-      fputs("File write error", stderr);
-      //return 1;
-    }
+    b64 = base64((void *)ciphertext, 16, &flen);
+    for(i=0; i<flen; i++)
+      c_t[i] = b64[i];
+    c_t = c_t + flen;
   }
-  fclose(output);
-  //return 0;
+  *c_t = 0; 
+  return cipher_text;
 }
 
-void dec(char *password, char *filename)
+
+char * dec( char *password, char *cipher_text)
 {
   unsigned long rk[RKLENGTH(KEYBITS)];
   unsigned char key[KEYLENGTH(KEYBITS)];
-  int i;
+  int i, flen ;
   int nrounds;
-  //char *password;
-  FILE *input;
-  /*if (argc < 3)
-  {
-    fputs("Missing argument\n", stderr);
-    return 1;
-  }*/
-  //password = pass;   //reading the key as the first argument
+  int p_t_len = (strlen(cipher_text)/24 + 1)*16 +1;
+  char * plain_text; char * p_t;
+  plain_text = (char *)malloc(p_t_len);
+  p_t = plain_text;
   for (i = 0; i < sizeof(key); i++)
     key[i] = password != 0 ? *password++ : 0;
-  input = fopen(filename, "rb");  //reading the file name as second argument
-  if (input == NULL)
-  {
-    fputs("File read error", stderr);
-    //return 1;
-  }
   nrounds = rijndaelSetupDecrypt(rk, key, 256);
+  FILE * input;
+  input = fopen("temp.txt", "wb");
+  fputs(cipher_text, input);
+  fclose(input);
+  input = fopen("temp.txt", "rb");
   while (1)
   {
     unsigned char plaintext[16];
-    unsigned char ciphertext[16];
-   // int j;
-    if (fread(ciphertext, sizeof(ciphertext), 1, input) != 1)
+    unsigned char ciphertext[24];
+    if (fread(ciphertext, 24, 1, input) != 1)
       break;
-    rijndaelDecrypt(rk, nrounds, ciphertext, plaintext);
-    fwrite(plaintext, sizeof(plaintext), 1, stdout);
+    rijndaelDecrypt(rk, nrounds, unbase64((char *)ciphertext, 24, &flen), plaintext);
+    for(i=0; i<flen; i++)
+      p_t[i] = plaintext[i];
+    p_t = p_t + flen;
   }
+  *p_t = 0; 
   fclose(input);
- // return 0;
+ 
+  remove("temp.txt");
+  return plain_text;
 }
 
- int main()
+/*
+int encoding(char *password,char *message)
 {
-	enc("rohit","d.txt");
-	dec("rohit","d.txt");
+  //char * password = "vickianandyadav";
+  //char * message = "This is some text, which is to be encrypted. Do work  man. please... please.... please.";
+cipher_text = enc(password, message);
+  printf("\n%s\n\n", cipher_text);
+
+   plain_text =  dec(password, cipher_text);
+  printf("%s\n", plain_text);
+  
 return 0;
 }
-
-
-/*void encr(char *password, char *filename)
+int decoding(char *password)
 {
-  //if( *argv[1] == 'd' || ( *argv[1] == '-' && *(argv[1]+1) == 'd') )
-    return encrypt(password, filename);
-  //else if( *argv[1] == 'e' || ( *argv[1] == '-' && *(argv[1]+1) == 'e') )
-    //return encrypt(argc-1, argv+1);
-  //else
-  //{
-    //fputs("Missing or inappropriate first argument\n", stderr);
-  //  return 1;
-  //}
+  //char * password = "vickianandyadav";
+  //char * message = "This is some text, which is to be encrypted. Do work  man. please... please.... please.";
+    printf("\n%s\n\n", cipher_text);
+   plain_text =  dec(password, cipher_text);
+  printf("%s\n", plain_text);
+return 0;
 }
+*/
 
-void decr(char *password, char *filename)
-{
-  //if( *argv[1] == 'd' || ( *argv[1] == '-' && *(argv[1]+1) == 'd') )
-//printf("%s",password);
-    return decrypt(password, filename);
-  //else if( *argv[1] == 'e' || ( *argv[1] == '-' && *(argv[1]+1) == 'e') )
-    //return encrypt(argc-1, argv+1);
-  //else
-  //{
-    //fputs("Missing or inappropriate first argument\n", stderr);
-  //  return 1;
-  //}
-//return 1;
-}*/
