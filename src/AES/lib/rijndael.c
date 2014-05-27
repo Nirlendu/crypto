@@ -16,7 +16,9 @@
 
 
 #include <stdio.h>
-
+#include <stdlib.h>
+#include <string.h>
+#include "../include/base64.h"
 
 typedef unsigned long u32;
 typedef unsigned char u8;
@@ -1227,102 +1229,84 @@ void rijndaelDecrypt(const u32 *rk, int nrounds, const u8 ciphertext[16],
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-int enc( char *password, char *file_name)
+char *enc( char *password, char * plain_text)
 {
   unsigned long rk[RKLENGTH(KEYBITS)];
   unsigned char key[KEYLENGTH(KEYBITS)];
-  int i;
+  int i, flen;
   int nrounds;
-  //char *password;
-  FILE *output;
-  
-  //password = argv[1];           //using argument-1 as the key
+  char *cipher_text; char *c_t; char * b64;
+  int c_t_len = (strlen(plain_text)/16 + 1)*24 + 1;
+  cipher_text = (char *)malloc(c_t_len);
+  c_t = cipher_text;
   for (i = 0; i < sizeof(key); i++)
     key[i] = password != 0 ? *password++ : 0;
-  output = fopen(file_name, "wb");  //using argument-2 for getting the name of output file
-  if (output == NULL)
-  {
-    fputs("File write error", stderr);
-    return 1;
-  }
   nrounds = rijndaelSetupEncrypt(rk, key, 256);
-  while (!feof(stdin))
-  {
+  while ( *plain_text != 0 )
+  { 
     unsigned char plaintext[16];
     unsigned char ciphertext[16];
     int j;
     for (j = 0; j < sizeof(plaintext); j++)
     {
-      int c = getchar();
-      if (c == EOF)
-        break;
+      int c = *plain_text;
       plaintext[j] = c;
+      plain_text++;
+      if (*plain_text == 0)
+        break;
     }
-    if (j == 0)
-      break;
-    for (; j < sizeof(plaintext); j++)
+    for (j++; j < sizeof(plaintext); j++)
       plaintext[j] = ' ';
     rijndaelEncrypt(rk, nrounds, plaintext, ciphertext);
-    if (fwrite(ciphertext, sizeof(ciphertext), 1, output) != 1)
-    {
-      fclose(output);
-      fputs("File write error", stderr);
-      return 1;
-    }
+    b64 = base64((void *)ciphertext, 16, &flen);
+    for(i=0; i<flen; i++)
+      c_t[i] = b64[i];
+    c_t = c_t + flen;
+    free(b64);
   }
-  fclose(output);
-  return 0;
+  *c_t = 0; 
+  return cipher_text;
 }
 
-int dec( char *password, char *file_name)
+
+
+
+char * dec( char *password, char *cipher_text)
 {
   unsigned long rk[RKLENGTH(KEYBITS)];
   unsigned char key[KEYLENGTH(KEYBITS)];
-  int i;
+  int i, flen ;
   int nrounds;
-  //char *password;
-  FILE *input;
-  //password = argv[1];   //reading the key as the first argument
+  int p_t_len = (strlen(cipher_text)/24 + 1)*16 +1;
+  char * plain_text; char * p_t; unsigned char * ub64;
+  plain_text = (char *)malloc(p_t_len);
+  p_t = plain_text;
   for (i = 0; i < sizeof(key); i++)
     key[i] = password != 0 ? *password++ : 0;
-  input = fopen(file_name, "rb"); //input = fopen(argv[2], "rb");  //reading the file name as second argument
-  if (input == NULL)
-  {
-    fputs("File read error", stderr);
-    return 1;
-  }
   nrounds = rijndaelSetupDecrypt(rk, key, 256);
+  FILE * input;
+  input = fopen("temp.txt", "wb");
+  fputs(cipher_text, input);
+  fclose(input);
+  input = fopen("temp.txt", "rb");
   while (1)
   {
     unsigned char plaintext[16];
-    unsigned char ciphertext[16];
-    //int j;
-    if (fread(ciphertext, sizeof(ciphertext), 1, input) != 1)
+    unsigned char ciphertext[24];
+    if (fread(ciphertext, 24, 1, input) != 1)
       break;
-    rijndaelDecrypt(rk, nrounds, ciphertext, plaintext);
-    fwrite(plaintext, sizeof(plaintext), 1, stdout);
+    ub64 = unbase64((char *)ciphertext, 24, &flen);
+    rijndaelDecrypt(rk, nrounds, ub64, plaintext);
+    for(i=0; i<flen; i++)
+      p_t[i] = plaintext[i];
+    p_t = p_t + flen;
+    free(ub64);
   }
+  *p_t = 0; 
   fclose(input);
-  return 0;
+  remove("temp.txt");
+  return plain_text;
 }
+
 
 

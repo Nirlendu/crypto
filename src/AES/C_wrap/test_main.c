@@ -1,21 +1,23 @@
 
 #include <stdio.h>
-#include "rijndael.h"
-
-int main(int argc, char **argv)
+#include <rijndael.h>
+#include <stdlib.h>
+int main()
 {
-  if(argc < 4)
-  {
-    fputs("Missing argument\n", stderr);
-    return 1;
-  }
-  if( *argv[1] == 'd' || ( *argv[1] == '-' && *(argv[1]+1) == 'd') )
-    return decrypt( *(argv+2), *(argv+3) );
-  else if( *argv[1] == 'e' || ( *argv[1] == '-' && *(argv[1]+1) == 'e') )
-    return encrypt( *(argv+2), *(argv+3) );
-  else
-  {
-    fputs("Missing or inappropriate first argument\n", stderr);
-    return 1;
-  }
+  char * password1 = "vickianandyadav";
+  char * password2 = "rohitanurag2";
+  char * message1 = "This is some text, which is to be encrypted. Do work man. please... please.... please.";
+  char * message2 = "This is a different text. Lets see what happens to this..";
+  char * cipher_text1 = enc(password1, message1);
+  char * cipher_text2 = enc(password2, message2);
+  printf("\n%s\n", cipher_text1);
+  printf("%s\n", cipher_text2);
+  char * plain_text1 = dec(password1, cipher_text1);
+  char * plain_text2 = dec(password2, cipher_text2);
+  printf("%s\n", plain_text1);
+  printf("%s\n", plain_text2);
+  free(cipher_text1);
+  free(cipher_text2);
+  free(plain_text1);
+  free(plain_text2);
 }
