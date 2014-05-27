@@ -1256,7 +1256,7 @@ char *enc( char *password, char * plain_text)
         break;
     }
     for (j++; j < sizeof(plaintext); j++)
-      plaintext[j] = ' ';
+      plaintext[j] = 0;
     rijndaelEncrypt(rk, nrounds, plaintext, ciphertext);
     b64 = base64((void *)ciphertext, 16, &flen);
     for(i=0; i<flen; i++)
