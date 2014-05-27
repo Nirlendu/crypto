@@ -5,7 +5,7 @@ callall:swig compile lib cs mono
 swig:  cryp.i
 	swig -csharp cryp.i
 
-compile:  /home/rohit/AESLIBRARIES/src/cryp.c cryp_wrap.c
+compile: cryp.c cryp_wrap.c
 	gcc -c -fpic cryp.c cryp_wrap.c
 
 lib: cryp.o cryp_wrap.o
