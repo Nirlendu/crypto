@@ -18,7 +18,7 @@ char * plain_text;
 #include "rijndael.h"
 #include <stdio.h>
 #include <string.h>
-#include "../include/base64.c"
+#include "base64.c"
 
 typedef unsigned long u32;
 typedef unsigned char u8;

@@ -2950,7 +2950,6 @@ static swig_module_info swig_module = {swig_types, 1, 0, 0, 0, 0};
   extern char* enc(char *password, char *filename);
   extern char* dec(char *password, char *filename);
   extern char* enc_dec(char *password, char *filename);
-  //extern  int k(char *password, char *filename);
  
 
 SWIGINTERN swig_type_info*
