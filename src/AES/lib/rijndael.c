@@ -1284,18 +1284,32 @@ char * dec( char *password, char *cipher_text)
   for (i = 0; i < sizeof(key); i++)
     key[i] = password != 0 ? *password++ : 0;
   nrounds = rijndaelSetupDecrypt(rk, key, 256);
+  /*
   FILE * input;
   input = fopen("temp.txt", "wb");
   fputs(cipher_text, input);
   fclose(input);
   input = fopen("temp.txt", "rb");
-  while (1)
+  */
+  while (*cipher_text != 0)
   {
     unsigned char plaintext[16];
-    unsigned char ciphertext[24];
+    char ciphertext[24];
+    /*
     if (fread(ciphertext, 24, 1, input) != 1)
       break;
-    ub64 = unbase64((char *)ciphertext, 24, &flen);
+    */
+    for(i=0; i<24; i++)
+    {
+      if(*cipher_text == 0)
+      {
+        fprintf(stderr, "Error : Something Wrong with the provided cipher text! ");
+        return "";
+      }
+      ciphertext[i] = *cipher_text;
+      cipher_text++;
+    }
+    ub64 = unbase64(ciphertext, 24, &flen);
     rijndaelDecrypt(rk, nrounds, ub64, plaintext);
     for(i=0; i<flen; i++)
       p_t[i] = plaintext[i];
@@ -1303,8 +1317,8 @@ char * dec( char *password, char *cipher_text)
     free(ub64);
   }
   *p_t = 0; 
-  fclose(input);
-  remove("temp.txt");
+  //fclose(input);
+  //remove("temp.txt");
   return plain_text;
 }
 
