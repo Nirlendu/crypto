@@ -1,6 +1,6 @@
 all: callall
 
-callall:swig compile lib move path 
+callall:swig compile lib java path 
 
 swig: ../rijndael.i
 	swig -java ../rijndael.i
@@ -17,9 +17,9 @@ java: main.java
 	javac main.java
 	
 path: main.class main.java
-	java -Djava.library.path=./main
+	java -Djava.library.path=/home/rohit/id_crypto/AES_wrappers/java_wrap/ main
 
 .PHONY: clean
 
 clean:
-	rm *.o *.so *java
+	rm *.o *.so 

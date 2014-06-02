@@ -22,4 +22,4 @@ mono: rijndael.exe
 .PHONY: clean
 
 clean: 
-	rm *.o *.so *.exe
+	rm *.o *.so *.c *.exe
