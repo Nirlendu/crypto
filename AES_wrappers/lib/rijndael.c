@@ -18,7 +18,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../include/base64.h"
+#include "base64.h"
 
 typedef unsigned long u32;
 typedef unsigned char u8;
