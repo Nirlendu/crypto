@@ -19,3 +19,5 @@ python: python_wrap/setup.py python_wrap/rijndael_python.c
 
 clean:
 	rm lib/librijndael.so test_main *so *fo
+	cd python_wrap && make clean
+
