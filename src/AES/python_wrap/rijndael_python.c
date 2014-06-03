@@ -28,14 +28,14 @@ static PyObject *decode(PyObject *self, PyObject *args) {
 }
 
 
-static PyMethodDef aes_methods[] = {
-  {"encode", encode, METH_VARARGS, "Encode it"},
+static PyMethodDef rijndael_methods[] = {
+  {"encode", encode, METH_VARARGS, "Encodes it"},
   {"decode", decode, METH_VARARGS, "Decodes it"}
 };
 
-PyMODINIT_FUNC initaes(void)
+PyMODINIT_FUNC initrijndael(void)
 {
-  Py_InitModule3("aes", aes_methods, "AES Methods");
+  Py_InitModule3("rijndael", rijndael_methods, "rijndael Methods");
 }
 
 

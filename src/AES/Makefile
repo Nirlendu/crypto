@@ -6,10 +6,16 @@ librijndael.so: lib/rijndael.c include/base64.h lib/base64.c
 	rm *.o
 	mv librijndael.so ./lib
 
-test_main: C_wrap/test_main.c librijndael.so
-	gcc -L./lib -I./include -o test_main C_wrap/test_main.c -lrijndael -Wl,-rpath=./lib
+test_main: C_test/test_main.c librijndael.so
+	gcc -L./lib -I./include -o test_main C_test/test_main.c -lrijndael -Wl,-rpath=./lib
+
+python: python_wrap/setup.py python_wrap/rijndael_python.c
+	cd python_wrap && make
+	cp python_wrap/*info .
+	cp python_wrap/*so .
+
 
 .PHONY: clean
 
 clean:
-	rm lib/librijndael.so test_main
+	rm lib/librijndael.so test_main *so *fo
