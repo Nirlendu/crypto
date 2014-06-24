@@ -1229,7 +1229,7 @@ void rijndaelDecrypt(const u32 *rk, int nrounds, const u8 ciphertext[16],
 
 
 
-char *enc( char *password, char * plain_text)
+char *encd( char *password, char * plain_text)
 {
   unsigned long rk[RKLENGTH(KEYBITS)];
   unsigned char key[KEYLENGTH(KEYBITS)];
@@ -1271,7 +1271,7 @@ char *enc( char *password, char * plain_text)
 
 
 
-char * dec( char *password, char *cipher_text)
+char * decd( char *password, char *cipher_text)
 {
   unsigned long rk[RKLENGTH(KEYBITS)];
   unsigned char key[KEYLENGTH(KEYBITS)];

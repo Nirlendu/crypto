@@ -2,10 +2,10 @@
  %module rijndael
  %{
  /* Put header files here or function declarations like below */
- 
- 
-  extern char* enc(char *password, char *filename);
-  extern char* dec(char *password, char *filename);
+   char* encd(char *password, char *filename);
+   char* decd(char *password, char *filename);
  %}
-   extern  char* enc(char *password, char *filename);
-   extern char* dec(char *password, char *filename);
+   %newobject encd;
+   char* encd(char *password, char *filename);
+   %newobject decd;   
+   char* decd(char *password, char *filename);
