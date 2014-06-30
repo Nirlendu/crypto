@@ -1240,7 +1240,7 @@ char *encd( char *password, char * plain_text)
   cipher_text = (char *)malloc(c_t_len);
   c_t = cipher_text;
   for (i = 0; i < sizeof(key); i++)
-    key[i] = password != 0 ? *password++ : 0;
+    key[i] = *password != 0 ? *password++ : 0;
   nrounds = rijndaelSetupEncrypt(rk, key, 256);
   while ( *plain_text != 0 )
   { 
@@ -1282,7 +1282,7 @@ char * decd( char *password, char *cipher_text)
   plain_text = (char *)malloc(p_t_len);
   p_t = plain_text;
   for (i = 0; i < sizeof(key); i++)
-    key[i] = password != 0 ? *password++ : 0;
+    key[i] = *password != 0 ? *password++ : 0;
   nrounds = rijndaelSetupDecrypt(rk, key, 256);
   /*
   FILE * input;
