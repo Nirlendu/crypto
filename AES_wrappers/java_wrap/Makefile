@@ -8,7 +8,7 @@ swig: ../rijndael.i
 	mv ../*java .
 
 compile: ../lib/rijndael.c rijndael_wrap.c
-	gcc -Wall -fPIC -I/usr/java/jdk1.8.0_05/include/ -I/usr/java/jdk1.8.0_05/include/linux -c ../lib/rijndael.c rijndael_wrap.c
+	gcc -Wall -fPIC -I$(JAVA_HOME)/include -I$(JAVA_HOME)/include/linux -c ../lib/rijndael.c rijndael_wrap.c
 
 lib: rijndael.o rijndael_wrap.o
 	ld -shared rijndael.o rijndael_wrap.o -o librijndael.so 

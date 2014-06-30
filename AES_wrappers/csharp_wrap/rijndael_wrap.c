@@ -257,18 +257,15 @@ SWIGEXPORT void SWIGSTDCALL SWIGRegisterStringCallback_rijndael(SWIG_CSharpStrin
 
 
  /* Put header files here or function declarations like below */
- 
- 
-  extern char* enc(char *password, char *filename);
-  extern char* dec(char *password, char *filename);
-  extern char* enc_dec(char *password, char *filename);
+   char* encd(char *password, char *filename);
+   char* decd(char *password, char *filename);
  
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-SWIGEXPORT char * SWIGSTDCALL CSharp_enc(char * jarg1, char * jarg2) {
+SWIGEXPORT char * SWIGSTDCALL CSharp_encd(char * jarg1, char * jarg2) {
   char * jresult ;
   char *arg1 = (char *) 0 ;
   char *arg2 = (char *) 0 ;
@@ -276,13 +273,14 @@ SWIGEXPORT char * SWIGSTDCALL CSharp_enc(char * jarg1, char * jarg2) {
   
   arg1 = (char *)jarg1; 
   arg2 = (char *)jarg2; 
-  result = (char *)enc(arg1,arg2);
+  result = (char *)encd(arg1,arg2);
   jresult = SWIG_csharp_string_callback((const char *)result); 
+  free(result);
   return jresult;
 }
 
 
-SWIGEXPORT char * SWIGSTDCALL CSharp_dec(char * jarg1, char * jarg2) {
+SWIGEXPORT char * SWIGSTDCALL CSharp_decd(char * jarg1, char * jarg2) {
   char * jresult ;
   char *arg1 = (char *) 0 ;
   char *arg2 = (char *) 0 ;
@@ -290,22 +288,9 @@ SWIGEXPORT char * SWIGSTDCALL CSharp_dec(char * jarg1, char * jarg2) {
   
   arg1 = (char *)jarg1; 
   arg2 = (char *)jarg2; 
-  result = (char *)dec(arg1,arg2);
+  result = (char *)decd(arg1,arg2);
   jresult = SWIG_csharp_string_callback((const char *)result); 
-  return jresult;
-}
-
-
-SWIGEXPORT char * SWIGSTDCALL CSharp_enc_dec(char * jarg1, char * jarg2) {
-  char * jresult ;
-  char *arg1 = (char *) 0 ;
-  char *arg2 = (char *) 0 ;
-  char *result = 0 ;
-  
-  arg1 = (char *)jarg1; 
-  arg2 = (char *)jarg2; 
-  result = (char *)enc_dec(arg1,arg2);
-  jresult = SWIG_csharp_string_callback((const char *)result); 
+  free(result);
   return jresult;
 }
 

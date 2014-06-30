@@ -8,10 +8,10 @@ swig: ../rijndael.i
 	mv ../*pm .
 
 compile: ../lib/rijndael.c rijndael_wrap.c
-	gcc -c `perl -MConfig -e 'print join(" ", @Config{qw(ccflags optimize cccdlflags)},"-I$$Config{archlib}/CORE")'` ../lib/rijndael.c rijndael_wrap.c
+	gcc -c `perl -MConfig -e 'print join(" ", @Config{qw(ccflags optimize cccdlflags)},"-I$$Config{archlib}/CORE")'` ../lib/base64.c ../lib/rijndael.c rijndael_wrap.c
 	
 lib: rijndael.o rijndael_wrap.o
-	gcc `perl -MConfig -e 'print $$Config{lddlflags}'` rijndael.o rijndael_wrap.o -o rijndael.so
+	gcc `perl -MConfig -e 'print $$Config{lddlflags}'` base64.o rijndael.o rijndael_wrap.o -o rijndael.so
 
 
 .PHONY: clean

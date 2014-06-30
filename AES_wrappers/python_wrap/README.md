@@ -8,13 +8,13 @@
 
 3>Now execute the following code in the swigpython directory
 
-      swig -python ../lib/rijndael.i
-      gcc -Wall -fPIC -I/usr/include/python2.7 -c ../lib/rijndael.c ../lib/rijndael_wrap.c
-      ld -shared rijndael.o rijndael_wrap.o -o _rijndael.so
+      swig -python ../rijndael.i
+      gcc -Wall -fPIC -I/usr/include/python2.7 -c ../lib/base64.c ../lib/rijndael.c ../rijndael_wrap.c
+      ld -shared base64.o rijndael.o rijndael_wrap.o -o _rijndael.so
  
-4>After doing all this stuffs now import cryp lib in python window
+4>After doing all this stuffs now import rijndael lib in python window
 
     import rijndael
-    rijndael.enc("key","message")
+    rijndael.encd("key","message")
 
 

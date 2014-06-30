@@ -2944,10 +2944,10 @@ static swig_module_info swig_module = {swig_types, 1, 0, 0, 0, 0};
 #define SWIG_as_voidptrptr(a) ((void)SWIG_as_voidptr(*a),(void**)(a)) 
 
 
- /* Put header files here or function declarations like below */
-   char* encd(char *password, char *filename);
-   char* decd(char *password, char *filename);
- 
+  /* Put header files here or function declarations like below */
+  char* encd(char *password, char *plain_text);
+  char* decd(char *password, char *cipher_text);
+
 
 SWIGINTERN swig_type_info*
 SWIG_pchar_descriptor(void)

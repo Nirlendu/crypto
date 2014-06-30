@@ -1,2 +1,2 @@
 all:setup.py
-	python setup.py install --install-platlib $PWD
+	python setup.py install --install-platlib $$PWD

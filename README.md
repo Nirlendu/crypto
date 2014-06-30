@@ -1,23 +1,7 @@
 id_crypto
 =========
 
-Platform independent crypto library for components
+Platform independent crypto library for components.
+SHA-1 used for checking the integrity and AES-256 used for encryption and decryption of data.
 
-
-Build Python Extension
-================
-
-<pre>
-cd id_crypto
-python python/setup.py install --install-platlib $PWD
-</pre>
-
-Check if it works in ipython:
-
-<pre>
-import license
-license.read_license('license')
-x = license.get_license_value('license')
-print x
-</pre>
-
+Library wrappers for some common langauages are present in respective wrapper directories.
