@@ -10,8 +10,9 @@ static PyObject *encode(PyObject *self, PyObject *args) {
   if (!PyArg_ParseTuple(args, "ss", &key, &message)) {
     return NULL;
   }
-  ans=enc(key,message);
+  ans=encd(key,message);
   obj=Py_BuildValue("s",ans);
+  Py_DECREF(ans);
   return obj;
 }
 
@@ -22,8 +23,9 @@ static PyObject *decode(PyObject *self, PyObject *args) {
   if (!PyArg_ParseTuple(args, "ss", &key, &message)) {
     return NULL;
   }
-  ans=dec(key,message);
+  ans=decd(key,message);
   obj=Py_BuildValue("s",ans);
+  Py_DECREF(ans);
   return obj;
 }
 
