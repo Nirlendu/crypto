@@ -3,11 +3,11 @@
 use strict;
 use warnings;
 
-use rijndael::encd 'encode';
-use rijndael::decd 'decode';
+use rijndael::encd 'encd';
+use rijndael::decd 'decd';
 
-$ciph = encode("vicki", "Hi code! how are u man?? do work... please...");
+$ciph = encd("vicki", "Hi code! how are u man?? do work... please...");
 say $ciph;
-$pln = decode("vicki", $ciph);
+$pln = decd("vicki", $ciph);
 print $pln;
 
