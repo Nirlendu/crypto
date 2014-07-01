@@ -1,8 +1,7 @@
 
 librijndael.so: lib/rijndael.c include/base64.h lib/base64.c
-	gcc -c -Wall -Werror -fpic lib/base64.c
-	gcc -c -Wall -Werror -fpic lib/rijndael.c
-	gcc -shared -o librijndael.so rijndael.o base64.o
+	gcc -c -Wall -Werror -fpic lib/base64.c lib/rijndael.c lib/enc_dec.c
+	gcc -shared -o librijndael.so rijndael.o base64.o enc_dec.o
 	rm *.o
 	mv librijndael.so ./lib
 
@@ -18,6 +17,6 @@ python: python_wrap/setup.py python_wrap/rijndael_python.c
 .PHONY: clean
 
 clean:
-	rm lib/librijndael.so test_main *so *fo
+	rm lib/librijndael.so test_main *so *info
 	cd python_wrap && make clean
 

@@ -2,7 +2,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-#include "../include/rijndael.h"
+#include "../include/enc_dec.h"
 
 static PyObject *encode(PyObject *self, PyObject *args) {
   PyObject *obj;
