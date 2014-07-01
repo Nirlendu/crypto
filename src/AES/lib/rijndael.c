@@ -1338,4 +1338,3 @@ char * decd( char *password, char *cipher_text)
   *p_t = '\0';
   return plain_text;
 }
-

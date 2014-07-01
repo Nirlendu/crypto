@@ -1,7 +1,8 @@
 #include<Python.h>
 #include<stdio.h>
 #include<stdlib.h>
-#include"../lib/rijndael.c"
+
+#include "../include/rijndael.h"
 
 static PyObject *encode(PyObject *self, PyObject *args) {
   PyObject *obj;
