@@ -7,11 +7,11 @@ swig: ../rijndael.i
 	mv ../rijndael_wrap.c .
 	mv ../*java .
 
-compile: ../lib/rijndael.c rijndael_wrap.c
-	gcc -Wall -fPIC -I$(JAVA_HOME)/include -I$(JAVA_HOME)/include/linux -c ../lib/rijndael.c rijndael_wrap.c
+compile: ../../src/AES/lib/base64.c ../../src/AES/lib/rijndael.c rijndael_wrap.c
+	gcc -Wall -fPIC -I$(JAVA_HOME)/include -I$(JAVA_HOME)/include/linux -c ../../src/AES/lib/base64.c ../../src/AES/lib/rijndael.c rijndael_wrap.c
 
-lib: rijndael.o rijndael_wrap.o
-	ld -shared rijndael.o rijndael_wrap.o -o librijndael.so 
+lib: base64.o rijndael.o rijndael_wrap.o
+	ld -shared base64.o rijndael.o rijndael_wrap.o -o librijndael.so 
 
 java: main.java
 	javac main.java

@@ -1514,10 +1514,10 @@ SWIGEXPORT void SWIG_init (CV *cv, CPerlObj *);
 #endif
 
 
- /* Put header files here or function declarations like below */
-   char* encd(char *password, char *filename);
-   char* decd(char *password, char *filename);
- 
+  /* Put header files here or function declarations like below */
+  char* encd(char *password, char *plain_text);
+  char* decd(char *password, char *cipher_text);
+
 
 SWIGINTERN swig_type_info*
 SWIG_pchar_descriptor(void)
@@ -1638,7 +1638,7 @@ XS(_wrap_encd) {
     dXSARGS;
     
     if ((items < 2) || (items > 2)) {
-      SWIG_croak("Usage: encd(password,filename);");
+      SWIG_croak("Usage: encd(password,plain_text);");
     }
     res1 = SWIG_AsCharPtrAndSize(ST(0), &buf1, NULL, &alloc1);
     if (!SWIG_IsOK(res1)) {
@@ -1679,7 +1679,7 @@ XS(_wrap_decd) {
     dXSARGS;
     
     if ((items < 2) || (items > 2)) {
-      SWIG_croak("Usage: decd(password,filename);");
+      SWIG_croak("Usage: decd(password,cipher_text);");
     }
     res1 = SWIG_AsCharPtrAndSize(ST(0), &buf1, NULL, &alloc1);
     if (!SWIG_IsOK(res1)) {

@@ -256,10 +256,10 @@ SWIGEXPORT void SWIGSTDCALL SWIGRegisterStringCallback_rijndael(SWIG_CSharpStrin
 #define SWIG_contract_assert(nullreturn, expr, msg) if (!(expr)) {SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentOutOfRangeException, msg, ""); return nullreturn; } else
 
 
- /* Put header files here or function declarations like below */
-   char* encd(char *password, char *filename);
-   char* decd(char *password, char *filename);
- 
+  /* Put header files here or function declarations like below */
+  char* encd(char *password, char *plain_text);
+  char* decd(char *password, char *cipher_text);
+
 
 #ifdef __cplusplus
 extern "C" {

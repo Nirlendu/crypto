@@ -11,13 +11,13 @@ using System;
 using System.Runtime.InteropServices;
 
 public class rijndael {
-  public static string encd(string password, string filename) {
-    string ret = rijndaelPINVOKE.encd(password, filename);
+  public static string encd(string password, string plain_text) {
+    string ret = rijndaelPINVOKE.encd(password, plain_text);
     return ret;
   }
 
-  public static string decd(string password, string filename) {
-    string ret = rijndaelPINVOKE.decd(password, filename);
+  public static string decd(string password, string cipher_text) {
+    string ret = rijndaelPINVOKE.decd(password, cipher_text);
     return ret;
   }
 

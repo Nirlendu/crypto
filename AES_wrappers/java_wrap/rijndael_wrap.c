@@ -187,16 +187,16 @@ static void SWIGUNUSED SWIG_JavaThrowException(JNIEnv *jenv, SWIG_JavaExceptionC
 #define SWIG_contract_assert(nullreturn, expr, msg) if (!(expr)) {SWIG_JavaThrowException(jenv, SWIG_JavaIllegalArgumentException, msg); return nullreturn; } else
 
 
- /* Put header files here or function declarations like below */
-   extern char* ddec(char *password, char *filename);
-   extern char* enc(char *password, char *filename);
- 
+  /* Put header files here or function declarations like below */
+  char* encd(char *password, char *plain_text);
+  char* decd(char *password, char *cipher_text);
+
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-SWIGEXPORT jstring JNICALL Java_rijndaelJNI_enc(JNIEnv *jenv, jclass jcls, jstring jarg1, jstring jarg2) {
+SWIGEXPORT jstring JNICALL Java_rijndaelJNI_encd(JNIEnv *jenv, jclass jcls, jstring jarg1, jstring jarg2) {
   jstring jresult = 0 ;
   char *arg1 = (char *) 0 ;
   char *arg2 = (char *) 0 ;
@@ -214,7 +214,7 @@ SWIGEXPORT jstring JNICALL Java_rijndaelJNI_enc(JNIEnv *jenv, jclass jcls, jstri
     arg2 = (char *)(*jenv)->GetStringUTFChars(jenv, jarg2, 0);
     if (!arg2) return 0;
   }
-  result = (char *)enc(arg1,arg2);
+  result = (char *)encd(arg1,arg2);
   if (result) jresult = (*jenv)->NewStringUTF(jenv, (const char *)result);
   if (arg1) (*jenv)->ReleaseStringUTFChars(jenv, jarg1, (const char *)arg1);
   if (arg2) (*jenv)->ReleaseStringUTFChars(jenv, jarg2, (const char *)arg2);
@@ -223,7 +223,7 @@ SWIGEXPORT jstring JNICALL Java_rijndaelJNI_enc(JNIEnv *jenv, jclass jcls, jstri
 }
 
 
-SWIGEXPORT jstring JNICALL Java_rijndaelJNI_ddec(JNIEnv *jenv, jclass jcls, jstring jarg1, jstring jarg2) {
+SWIGEXPORT jstring JNICALL Java_rijndaelJNI_decd(JNIEnv *jenv, jclass jcls, jstring jarg1, jstring jarg2) {
   jstring jresult = 0 ;
   char *arg1 = (char *) 0 ;
   char *arg2 = (char *) 0 ;
@@ -241,7 +241,7 @@ SWIGEXPORT jstring JNICALL Java_rijndaelJNI_ddec(JNIEnv *jenv, jclass jcls, jstr
     arg2 = (char *)(*jenv)->GetStringUTFChars(jenv, jarg2, 0);
     if (!arg2) return 0;
   }
-  result = (char *)ddec(arg1,arg2);
+  result = (char *)decd(arg1,arg2);
   if (result) jresult = (*jenv)->NewStringUTF(jenv, (const char *)result);
   if (arg1) (*jenv)->ReleaseStringUTFChars(jenv, jarg1, (const char *)arg1);
   if (arg2) (*jenv)->ReleaseStringUTFChars(jenv, jarg2, (const char *)arg2);

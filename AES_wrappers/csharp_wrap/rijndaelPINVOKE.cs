@@ -188,12 +188,9 @@ class rijndaelPINVOKE {
   }
 
 
-  [DllImport("rijndael", EntryPoint="CSharp_enc")]
-  public static extern string enc(string jarg1, string jarg2);
+  [DllImport("rijndael", EntryPoint="CSharp_encd")]
+  public static extern string encd(string jarg1, string jarg2);
 
-  [DllImport("rijndael", EntryPoint="CSharp_dec")]
-  public static extern string dec(string jarg1, string jarg2);
-
-  [DllImport("rijndael", EntryPoint="CSharp_enc_dec")]
-  public static extern string enc_dec(string jarg1, string jarg2);
+  [DllImport("rijndael", EntryPoint="CSharp_decd")]
+  public static extern string decd(string jarg1, string jarg2);
 }
