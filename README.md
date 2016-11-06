@@ -12,6 +12,15 @@ Eg. To install AES in python, run
 make aes-python
 ```
 
+To run AES in python, open python prompt
+
+```
+import rijndael
+x = rijndael.encode('SECRET_KEY', 'secret_message')
+print rijndael.decode('SECRET_KEY', x)
+```
+
+
 To install SHA in python,
 
 ```
