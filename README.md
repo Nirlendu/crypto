@@ -14,10 +14,10 @@ make aes-python
 
 To run AES in python, open python prompt
 
-```
+```python
 import rijndael
-x = rijndael.encode('SECRET_KEY', 'secret_message')
-print rijndael.decode('SECRET_KEY', x)
+encoded_message = rijndael.encode('SECRET_KEY', 'secret_message')
+print rijndael.decode('SECRET_KEY', encoded_message)
 ```
 
 
